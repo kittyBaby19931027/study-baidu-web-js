@@ -35,11 +35,21 @@
      * 返回一个数组，格式见函数中示例
      */
     function getData() {
-        var liContent=document.getElementsByTagName('li');
+//        方法一：(by myself)
+        var liContent=document.getElementById('source').getElementsByTagName('li');
         for(var i=0,data=[];i<liContent.length;i++){
             data[i]=liContent[i].innerText.split("空气质量：");
         }
         return data;
+//        方法二：
+        var ul = document.getElementById("source");
+        var data = [];
+        for (var i = 0; i < ul.childElementCount; i++) {
+            var li = ul.children[i];
+            var strCity = li.innerHTML.split("空气质量：")[0];
+            var num = Number(li.children[0].innerHTML);
+            data.push([strCity, num]);
+        }
         /*
          data = [
          ["北京", 90],
@@ -76,12 +86,12 @@
         aqiData = sortAqiData(aqiData);
         console.log(aqiData);
         render(aqiData);
+        document.getElementById('sort-btn').disabled=true;
     }
     function init() {
         // 在这下面给sort-btn绑定一个点击事件，点击时触发btnHandle函数
-        document.getElementById('sort-btn').onclick=function(){
-            btnHandle();
-        }
+        document.getElementById('sort-btn').onclick=btnHandle;
+
     }
     init();
 </script>
